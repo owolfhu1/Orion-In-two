@@ -18,6 +18,8 @@
             <button id="add_skill" class="btn btn-warning">Add Skill</button>
         </div>
     </div>
+
+    <!-- show resume -->
     <div class="well">
         <h1>Education:</h1>
         <div th:each="e : ${edus}">
@@ -31,7 +33,6 @@
         <h1>Work Experience:</h1>
         <div th:each="w : ${works}">
             <div class="well">
-
                 <h3 th:text="${w.title}">title</h3>
                 <p>company: <th:block th:text="${w.company}">company</th:block></p>
                 <p>tasks: <th:block th:text="${w.tasks}">tasks</th:block></p>
@@ -46,7 +47,9 @@
             </div>
         </div>
     </div>
+    <!-- show resume -->
 
+    <!-- add edu -->
     <div class="well center" style="height:250px; display: none;" id="new_edu">
         <button class="btn btn-danger btn-xs btn-closer" id="close_edu">X</button>
         <form class="form-horizontal" th:action="@{/new_edu}" th:object="${edu}" method="post">
@@ -64,7 +67,9 @@
             </div>
         </form>
     </div>
+    <!-- add edu -->
 
+    <!-- add work -->
     <div class="well center" style="height:250px; display: none;" id="new_work">
         <button class="btn btn-danger btn-xs btn-closer" id="close_work">X</button>
         <form class="form-horizontal" th:action="@{/new_work}" th:object="${work}" method="post">
@@ -82,7 +87,9 @@
             </div>
         </form>
     </div>
+    <!-- add work -->
 
+    <!-- add skill -->
     <div class="well center" style="height:200px; display: none;" id="new_skill">
         <button class="btn btn-danger btn-xs btn-closer" id="close_skill">X</button>
         <form class="form-horizontal" th:action="@{/new_skill}" th:object="${skill}" method="post">
@@ -97,12 +104,14 @@
             </div>
         </form>
     </div>
+    <!-- add skill -->
+
 </div><!-- /.container -->
 
-
 <script>
-    let fields = {e: 'edu', w: 'work', s: 'skill' };
+    const fields = {e: 'edu', w: 'work', s: 'skill' };
 
+    //activate buttons
     for (let i in fields) {
         ID('add_' + fields[i]).addEventListener('click', () => {
             ID('new_' + fields[i]).style.display = 'block';
@@ -111,6 +120,12 @@
             ID('new_' + fields[i]).style.display = 'none';
         });
     }
+
+    //edit nav bar
+    ID('login').style.display = 'none';
+    ID('register').style.display = 'none';
+    ID('post_job').style.display = 'none';
+    ID('builder').className += "active";
 </script>
 
 </body>

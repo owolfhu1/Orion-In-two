@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html     xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:th="http://www.thymeleaf.org"
+          xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <th:block th:replace="base :: head"></th:block>
+</head>
+<body>
+<div class="container">
+    <th:block th:replace="base :: nav"></th:block>
+    <div class="jumbotron">
+        <h1>notifications!</h1>
+    </div>
+
+    <div class="well" th:each="msg : ${msgs}">
+        <div class="well">
+            <h2 th:text="${msg.message}">message</h2>
+            <a th:href="@{'delete/notification/' + ${msg.id}}"><button class="btn btn-danger">Delete Notification</button></a>
+        </div>
+    </div>
+
+</div><!-- /.container -->
+
+
+<script>
+    ID('notifications').className += 'active';
+    ID('login').style.display = 'none';
+    ID('register').style.display = 'none';
+</script>
+
+</body>
+</html>

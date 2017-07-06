@@ -1,15 +1,9 @@
 package com.example.demo.Controller;
 
-import com.example.demo.model.Skill;
-import com.example.demo.model.Work;
-import com.example.demo.repositories.SkillRepository;
-import com.example.demo.repositories.UserRepository;
-import com.example.demo.repositories.EduRepository;
-import com.example.demo.model.Edu;
-import com.example.demo.repositories.WorkRepository;
+import com.example.demo.model.*;
+import com.example.demo.repositories.*;
 import com.example.demo.services.UserService;
 import com.example.demo.services.UserValidator;
-import com.example.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -22,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.security.core.Authentication;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 
 @Controller
 public class HomeController {
@@ -32,35 +27,40 @@ public class HomeController {
     private EduRepository eduRepository;
     private WorkRepository workRepository;
     private SkillRepository skillRepository;
+    private JobRepository jobRepository;
+    private NotificationRepository notificationRepository;
 
     @Autowired
-    public HomeController (UserValidator userValidator, UserService userService, UserRepository userRepository
-            , EduRepository eduRepository, WorkRepository workRepository, SkillRepository skillRepository) {
+    public HomeController(UserValidator userValidator, UserService userService, UserRepository userRepository, NotificationRepository notificationRepository
+            , EduRepository eduRepository, WorkRepository workRepository, SkillRepository skillRepository, JobRepository jobRepository) {
         this.userValidator = userValidator;
         this.userService = userService;
         this.userRepository = userRepository;
         this.eduRepository = eduRepository;
         this.workRepository = workRepository;
         this.skillRepository = skillRepository;
+        this.jobRepository = jobRepository;
+        this.notificationRepository = notificationRepository;
     }
 
     @RequestMapping("/")
-    public String index(){
+    public String index() {
         return "index";
     }
 
     @RequestMapping("/login")
-    public String login(){
+    public String login() {
         return "login";
     }
 
-    @RequestMapping(value="/register", method = RequestMethod.GET)
-    public String showRegistrationPage(Model model){
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String showRegistrationPage(Model model) {
         model.addAttribute("user", new User());
         return "registration";
     }
-    @RequestMapping(value="/register", method = RequestMethod.POST)
-    public String processRegistrationPage(@Valid @ModelAttribute("user") User user, BindingResult result, Model model){
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String processRegistrationPage(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
         model.addAttribute("user", user);
         userValidator.validate(user, result);
         if (result.hasErrors()) {
@@ -88,7 +88,7 @@ public class HomeController {
     }
 
     @RequestMapping("/new_edu")
-    public String addEdu(Edu edu, Authentication authentication){
+    public String addEdu(Edu edu, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = userRepository.findByUsername(userDetails.getUsername());
         edu.setUsername(user.getUsername());
@@ -97,7 +97,7 @@ public class HomeController {
     }
 
     @RequestMapping("/new_work")
-    public String addWork(Work work, Authentication authentication){
+    public String addWork(Work work, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = userRepository.findByUsername(userDetails.getUsername());
         work.setUsername(user.getUsername());
@@ -106,7 +106,7 @@ public class HomeController {
     }
 
     @RequestMapping("/new_skill")
-    public String addSkill(Skill skill, Authentication authentication){
+    public String addSkill(Skill skill, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = userRepository.findByUsername(userDetails.getUsername());
         skill.setUsername(user.getUsername());
@@ -132,6 +132,84 @@ public class HomeController {
         return "redirect:/builder";
     }
 
+    @RequestMapping("/delete/job/{id}")
+    public String delJob(@PathVariable("id") Integer id) {
+        jobRepository.delete(id);
+        return "redirect:/post_job";
+    }
+
+    @RequestMapping("/delete/notification/{id}")
+    public String delNotification(@PathVariable("id") Integer id) {
+        notificationRepository.delete(id);
+        return "index";
+    }
+
+    @RequestMapping("/job_search")
+    public String jobSearch(Model model, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userRepository.findByUsername(userDetails.getUsername());
+
+        model.addAttribute("job", new Job());
+        model.addAttribute("person", user);
+        model.addAttribute("jobs", new ArrayList<Job>());
+        return "job_search";
+    }
+
+    @RequestMapping("/title_job_search")
+    public String titleSearch(Job job, Model model, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userRepository.findByUsername(userDetails.getUsername());
+
+        model.addAttribute("job", new Job());
+        model.addAttribute("person", user);
+        model.addAttribute("jobs", jobRepository.findAllByTitle(job.getTitle()));
+        return "job_search";
+    }
+
+    @RequestMapping("/skill_job_search")
+    public String skillSearch(Job job, Model model, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userRepository.findByUsername(userDetails.getUsername());
+
+        model.addAttribute("job", new Job());
+        model.addAttribute("person", user);
+        model.addAttribute("jobs", jobRepository.findAllByRequirementsContaining(job.getRequirements()));
+        return "job_search";
+    }
+
+    @RequestMapping("/post_job")
+    public String postJob(Model model, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userRepository.findByUsername(userDetails.getUsername());
+
+        model.addAttribute("job", new Job());
+        model.addAttribute("person", user);
+        model.addAttribute("jobs", jobRepository.findAllByEmployer(user.getUsername()));
+        return "post_job";
+    }
+
+    @RequestMapping("/new_job")
+    public String newJob(Job job, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userRepository.findByUsername(userDetails.getUsername());
+
+        job.setEmployer(user.getUsername());
+        jobRepository.save(job);
+        return "index";
+    }
+
+    @RequestMapping("/notifications")
+    public String notifications(Model model, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userRepository.findByUsername(userDetails.getUsername());
+
+        model.addAttribute("msgs", notificationRepository.findAllByUsername(user.getUsername()));
+        model.addAttribute("person", user);
+
+        return "notifications";
+    }
+
+
     //for testing
     private void console(String format, Object... args) {
         format = "\n" + format + "\n";
@@ -144,3 +222,25 @@ public class HomeController {
         this.userValidator = userValidator;
     }
 }
+
+/*
+
+Recruiters can now post jobs - jobs have skill requirements as part of the posting
+Users can search for jobs in addition to people, companies and schools
+Users receive notifications when jobs that match their skills are posted
+
+The requirements from the last challenge must still be met.
+
+
+
+A job should contain:
+
+=============================================================
+
+A title,
+an employer,
+a salary range,
+a description and
+a list of skills.
+
+ */

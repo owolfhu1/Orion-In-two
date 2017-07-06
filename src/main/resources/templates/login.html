@@ -10,7 +10,11 @@
 
 <div class="container">
     <th:block th:replace="base :: nav"></th:block>
-    <br /><br /><br />
+    <div class="jumbotron">
+        <h1>Welcome to Job Hunter</h1>
+    </div>
+
+    <div class="well">
     <div th:if="${param.error}">
         Invalid username and password.
     </div>
@@ -18,12 +22,20 @@
         You have been logged out.
     </div>
     <form th:action="@{/login}" method="post">
-        <div><label> User Name : <input type="text" name="username"/> </label></div>
-        <div><label> Password: <input type="password" name="password"/> </label></div>
-        <div><input type="submit" value="Sign In"/></div>
+        <input type="text" name="username" class="form-control" placeholder="username"/>
+        <input type="password" name="password" class="form-control" placeholder="password"/>
+        <input type="submit" value="Sign In" class="form-control"/>
     </form>
+    </div>
 </div><!-- /.container -->
 
-<th:block th:replace="base :: footlinks"></th:block>
+<script>
+    ID('login').className += 'active';
+    ID('logout').style.display = 'none';
+    ID('builder').style.display = 'none';
+    ID('post_job').style.display = 'none';
+    ID('job_search').style.display = 'none';
+    ID('notifications').style.display = 'none';
+</script>
 </body>
 </html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org " xmlns:sec="www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="base :: head"></th:block>
+</head>
+<body>
+<div class="container">
+    <th:block th:replace="base :: nav"></th:block>
+
+    <div class="jumbotron">
+        <h1>Hello <th:block th:text="${person.firstName}"></th:block>!</h1>
+        <h2>Here you can post a new job listing or delete</h2>
+
+    </div>
+
+    <!-- new job form -->
+    <div class="well">
+        <form class="form-horizontal" th:action="@{/new_job}" th:object="${job}" method="post">
+            <div class="form-group">
+                <input th:field="*{title}" type="text" class="form-control" placeholder="Title"/>
+            </div>
+            <div class="form-group">
+                <input th:field="*{salary}" type="text" class="form-control" placeholder="Salary range"/>
+            </div>
+            <div class="form-group">
+                <input th:field="*{description}" type="text" class="form-control" placeholder="Job description"/>
+            </div>
+            <div class="form-group">
+                <input th:field="*{requirements}" type="text" class="form-control" placeholder="Requirements"/>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="form-control">Post new Job</button>
+            </div>
+        </form>
+    </div>
+    <!-- new job form -->
+
+    <!-- your jobs -->
+    <div class="well" th:each="job : ${jobs}">
+        <div class="well">
+            <h1 th:text="${job.title}">title</h1>
+            <p>Employer: <th:block th:text="${job.employer}">employer</th:block></p>
+            <p>Salary: <th:block th:text="${job.salary}">employer</th:block></p>
+            <p>Job description: <th:block th:text="${job.description}">description</th:block></p>
+            <p>required skills: <th:block th:text="${job.requirements}">skills</th:block></p>
+            <a th:href="@{'delete/job/' + ${job.id}}"><button class="btn btn-danger">Delete Job</button></a>
+        </div>
+    </div>
+    <!-- your jobs -->
+
+</div><!-- /.container -->
+
+<script>
+    //edit nav bar
+    ID('login').style.display = 'none';
+    ID('register').style.display = 'none';
+    ID('builder').style.display = 'none';
+    ID('post_job').className += 'active';
+</script>
+
+</body>
+</html>

@@ -32,9 +32,22 @@
             <label for="password">Password <mark><strong><span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</span></strong></mark></label>
             <input type="password" class="form-control" id="password" placeholder="Password" th:field="*{password}" />
         </div>
+
+        <!-- TODO  roles -->
+
         <button type="submit" class="btn btn-default">Submit</button>
     </form>
 </div><!-- /.container -->
+
+
+<script>
+    ID('register').className += 'active';
+    ID('logout').style.display = 'none';
+    ID('builder').style.display = 'none';
+    ID('job_search').style.display = 'none';
+    ID('post_job').style.display = 'none';
+    ID('notifications').style.display = 'none';
+</script>
 
 </body>
 </html>
