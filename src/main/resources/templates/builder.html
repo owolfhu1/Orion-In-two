@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org " xmlns:sec="www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="base :: head"></th:block>
+</head>
+<body>
+<div class="container">
+    <th:block th:replace="base :: nav"></th:block>
+
+    <div class="jumbotron">
+        <h1>Hello <th:block th:text="${person.firstName}"></th:block>!</h1>
+        <h2>Welcome to the resume builder.</h2>
+        <p>What would you like to do today?</p>
+
+        <div class="btn-group">
+            <button id="add_edu" class="btn btn-warning">Add Education</button>
+            <button id="add_work" class="btn btn-warning">Add Work</button>
+            <button id="add_skill" class="btn btn-warning">Add Skill</button>
+        </div>
+    </div>
+    <div class="well">
+        <h1>Education:</h1>
+        <div th:each="e : ${edus}">
+            <div class="well">
+                <h3 th:text="${e.school}">school</h3>
+                <p>years: <th:block th:text="${e.years}"years</th:block></p>
+                <p>degree: <th:block th:text="${e.degree}">degree</th:block></p>
+                <a th:href="@{'delete/edu/' + ${e.id}}"><button class="btn btn-danger">delete</button></a>
+            </div>
+        </div>
+        <h1>Work Experience:</h1>
+        <div th:each="w : ${works}">
+            <div class="well">
+
+                <h3 th:text="${w.title}">title</h3>
+                <p>company: <th:block th:text="${w.company}">company</th:block></p>
+                <p>tasks: <th:block th:text="${w.tasks}">tasks</th:block></p>
+                <a th:href="@{'delete/work/' + ${w.id}}"><button class="btn btn-danger">delete</button></a>
+            </div>
+        </div>
+        <h1>Skills:</h1>
+        <div th:each="s : ${skills}">
+            <div class="well">
+                <p><th:block th:text="${s.area}">area</th:block>: <th:block th:text="${s.level}">level</th:block></p>
+                <a th:href="@{'delete/skill/' + ${s.id}}"><button class="btn btn-danger">delete</button></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="well center" style="height:250px; display: none;" id="new_edu">
+        <button class="btn btn-danger btn-xs btn-closer" id="close_edu">X</button>
+        <form class="form-horizontal" th:action="@{/new_edu}" th:object="${edu}" method="post">
+            <div class="form-group">
+                <input th:field="*{school}" type="text" class="form-control" placeholder="school"/>
+            </div>
+            <div class="form-group">
+                <input th:field="*{years}" type="text" class="form-control" placeholder="years"/>
+            </div>
+            <div class="form-group">
+                <input th:field="*{degree}" type="text" class="form-control" placeholder="degree type"/>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="form-control">Add School</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="well center" style="height:250px; display: none;" id="new_work">
+        <button class="btn btn-danger btn-xs btn-closer" id="close_work">X</button>
+        <form class="form-horizontal" th:action="@{/new_work}" th:object="${work}" method="post">
+            <div class="form-group">
+                <input th:field="*{title}" type="text" class="form-control" placeholder="title"/>
+            </div>
+            <div class="form-group">
+                <input th:field="*{company}" type="text" class="form-control" placeholder="company"/>
+            </div>
+            <div class="form-group">
+                <input th:field="*{tasks}" type="text" class="form-control" placeholder="tasks"/>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="form-control">Add Job</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="well center" style="height:200px; display: none;" id="new_skill">
+        <button class="btn btn-danger btn-xs btn-closer" id="close_skill">X</button>
+        <form class="form-horizontal" th:action="@{/new_skill}" th:object="${skill}" method="post">
+            <div class="form-group">
+                <input th:field="*{area}" type="text" class="form-control" placeholder="area"/>
+            </div>
+            <div class="form-group">
+                <input th:field="*{level}" type="text" class="form-control" placeholder="level"/>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="form-control">Add Skill</button>
+            </div>
+        </form>
+    </div>
+</div><!-- /.container -->
+
+
+<script>
+    let fields = {e: 'edu', w: 'work', s: 'skill' };
+
+    for (let i in fields) {
+        ID('add_' + fields[i]).addEventListener('click', () => {
+            ID('new_' + fields[i]).style.display = 'block';
+        });
+        ID('close_' + fields[i]).addEventListener('click', () => {
+            ID('new_' + fields[i]).style.display = 'none';
+        });
+    }
+</script>
+
+</body>
+</html>

@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="www.thymeleaf.org ">
 <head>
+    <th:block th:fragment="head">
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Secure Bones</title>
-    <th:block th:fragment="head">
+    <title>Job Hunter</title>
         <!-- Bootstrap -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
               integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
               crossorigin="anonymous" />
-        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
+        <script>
+            let ID = i => document.getElementById(i);
+            let CLASS = c => document.getElementsByClassName(c);
+        </script>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+                crossorigin="anonymous"></script>
+        <style>
+            .center{ margin: auto; position: absolute; width: 70%; top: 0; left: 0; bottom: 0; right: 0; }
+            .btn-closer{ position: absolute; top: 3px; right: 3px; }
+        </style>
     </th:block>
 </head>
 <body>
@@ -33,29 +40,13 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/login">Login</a></li>
-                <li><a href="/logout">Logout</a></li>
-                <li><a href="/register">Register</a></li>
+                <li id="login" ><a href="/login">Login</a></li>
+                <li id="logout" ><a href="/logout">Logout</a></li>
+                <li id="register" ><a href="/register">Register</a></li>
+                <li id="builder" ><a href="/builder">Resume Builder</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
-<div class="container">
-
-    <div class="starter-template">
-        <h1>SecureBones</h1>
-        <p class="lead">Use this document as a way to quickly start any new project.<br /> All you get is this text and a mostly barebones HTML document.</p>
-    </div>
-
-</div><!-- /.container -->
-<th:block th:fragment="footlinks">
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
-</th:block>
 </body>
 </html>

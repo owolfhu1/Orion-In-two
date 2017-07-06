@@ -1,25 +1,48 @@
 package com.example.demo.Controller;
 
+import com.example.demo.model.Skill;
+import com.example.demo.model.Work;
+import com.example.demo.repositories.SkillRepository;
+import com.example.demo.repositories.UserRepository;
+import com.example.demo.repositories.EduRepository;
+import com.example.demo.model.Edu;
+import com.example.demo.repositories.WorkRepository;
 import com.example.demo.services.UserService;
 import com.example.demo.services.UserValidator;
 import com.example.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.security.core.Authentication;
 
 import javax.validation.Valid;
 
 @Controller
 public class HomeController {
 
-    @Autowired
     private UserValidator userValidator;
-    @Autowired
     private UserService userService;
+    private UserRepository userRepository;
+    private EduRepository eduRepository;
+    private WorkRepository workRepository;
+    private SkillRepository skillRepository;
+
+    @Autowired
+    public HomeController (UserValidator userValidator, UserService userService, UserRepository userRepository
+            , EduRepository eduRepository, WorkRepository workRepository, SkillRepository skillRepository) {
+        this.userValidator = userValidator;
+        this.userService = userService;
+        this.userRepository = userRepository;
+        this.eduRepository = eduRepository;
+        this.workRepository = workRepository;
+        this.skillRepository = skillRepository;
+    }
 
     @RequestMapping("/")
     public String index(){
@@ -47,6 +70,72 @@ public class HomeController {
             model.addAttribute("message", "User Account Successfully Created");
         }
         return "index";
+    }
+
+    @RequestMapping("/builder")
+    public String builder(Model model, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userRepository.findByUsername(userDetails.getUsername());
+
+        model.addAttribute("edu", new Edu());
+        model.addAttribute("work", new Work());
+        model.addAttribute("skill", new Skill());
+        model.addAttribute("person", user);
+        model.addAttribute("edus", eduRepository.findAllByUsername(user.getUsername()));
+        model.addAttribute("works", workRepository.findAllByUsername(user.getUsername()));
+        model.addAttribute("skills", skillRepository.findAllByUsername(user.getUsername()));
+        return "builder";
+    }
+
+    @RequestMapping("/new_edu")
+    public String addEdu(Edu edu, Authentication authentication){
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userRepository.findByUsername(userDetails.getUsername());
+        edu.setUsername(user.getUsername());
+        eduRepository.save(edu);
+        return "redirect:/builder";
+    }
+
+    @RequestMapping("/new_work")
+    public String addWork(Work work, Authentication authentication){
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userRepository.findByUsername(userDetails.getUsername());
+        work.setUsername(user.getUsername());
+        workRepository.save(work);
+        return "redirect:/builder";
+    }
+
+    @RequestMapping("/new_skill")
+    public String addSkill(Skill skill, Authentication authentication){
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userRepository.findByUsername(userDetails.getUsername());
+        skill.setUsername(user.getUsername());
+        skillRepository.save(skill);
+        return "redirect:/builder";
+    }
+
+    @RequestMapping("/delete/work/{id}")
+    public String delWork(@PathVariable("id") Integer id) {
+        workRepository.delete(id);
+        return "redirect:/builder";
+    }
+
+    @RequestMapping("/delete/edu/{id}")
+    public String delEdu(@PathVariable("id") Integer id) {
+        eduRepository.delete(id);
+        return "redirect:/builder";
+    }
+
+    @RequestMapping("/delete/skill/{id}")
+    public String delSkill(@PathVariable("id") Integer id) {
+        skillRepository.delete(id);
+        return "redirect:/builder";
+    }
+
+    //for testing
+    private void console(String format, Object... args) {
+        format = "\n" + format + "\n";
+        System.out.printf(format, args);
     }
     public UserValidator getUserValidator() {
         return userValidator;

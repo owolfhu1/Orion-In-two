@@ -1,6 +1,6 @@
 package com.example.demo.services;
-import com.example.demo.Repositories.RoleRepository;
-import com.example.demo.Repositories.UserRepository;
+import com.example.demo.repositories.RoleRepository;
+import com.example.demo.repositories.UserRepository;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class DataLoader implements CommandLineRunner{
 
     @Override
     public void run(String... strings) throws Exception {
-        System.out.println("Loading data . . .");
+        /*System.out.println("Loading data . . .");
         roleRepository.save(new Role("USER"));
         roleRepository.save(new Role("ADMIN"));
         Role adminRole = roleRepository.findByRole("ADMIN");
@@ -46,6 +46,6 @@ public class DataLoader implements CommandLineRunner{
         user = new User("sam@every.com","password","Sam","Everyman", true, "everyman");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Arrays.asList(userRole, adminRole));
-        userRepository.save(user);
+        userRepository.save(user); */
     }
 }
