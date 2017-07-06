@@ -11,4 +11,6 @@ import java.util.ArrayList;
  */
 public interface SkillRepository extends CrudRepository<Skill, Integer> {
     ArrayList<Skill> findAllByUsername(String username);
+
+    ArrayList<Skill> findAllByArea(String skill);
 }

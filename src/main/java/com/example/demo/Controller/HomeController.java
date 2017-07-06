@@ -192,8 +192,10 @@ public class HomeController {
     public String newJob(Job job, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = userRepository.findByUsername(userDetails.getUsername());
-
         job.setEmployer(user.getUsername());
+
+        alertSeekers(job);
+
         jobRepository.save(job);
         return "index";
     }
@@ -215,6 +217,20 @@ public class HomeController {
         format = "\n" + format + "\n";
         System.out.printf(format, args);
     }
+
+    private void alertSeekers(Job job) {
+        String[] skills = job.getRequirements().split(",");
+        for(String skill : skills) {
+            ArrayList<Skill> users = skillRepository.findAllByArea(skill);
+            for (Skill s : users) {
+                Notification notification = new Notification();
+                notification.setMessage("A new job has been posted which requires the skill: " + skill);
+                notification.setUsername(s.getUsername());
+                notificationRepository.save(notification);
+            }
+        }
+    }
+
     public UserValidator getUserValidator() {
         return userValidator;
     }

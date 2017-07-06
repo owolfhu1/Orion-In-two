@@ -10,10 +10,10 @@
 
 <div class="container">
     <th:block th:replace="base :: nav"></th:block>
+    <br/> <br/> <br/>
     <div class="jumbotron">
         <h1>Welcome to Job Hunter</h1>
     </div>
-
     <div class="well">
     <div th:if="${param.error}">
         Invalid username and password.
@@ -23,7 +23,9 @@
     </div>
     <form th:action="@{/login}" method="post">
         <input type="text" name="username" class="form-control" placeholder="username"/>
+        <br/>
         <input type="password" name="password" class="form-control" placeholder="password"/>
+        <br/>
         <input type="submit" value="Sign In" class="form-control"/>
     </form>
     </div>
