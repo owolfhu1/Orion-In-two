@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html 	xmlns="http://www.w3.org/1999/xhtml"
+         xmlns:th="http://www.thymeleaf.org"
+         xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <th:block th:replace="base :: head"></th:block>
+</head>
+<body>
+<div class="container">
+    <th:block th:replace="base :: nav"></th:block>
+    <br/><br/><br/>
+    <div class="jumbotron">
+        <p>How would you like to search?</p>
+        <div class="btn-group">
+            <button id="persons_search" class="btn btn-warning">Search people by username</button>
+            <button id="company_search" class="btn btn-warning">Search people by company</button>
+            <button id="school_search" class="btn btn-warning">Search people by school</button>
+        </div>
+    </div>
+
+    <!-- results -->
+    <div class="well" th:each="person : ${people}">
+        <div class="well">
+            <h2>
+                <th:block th:text="${person.user.firstName}"></th:block> <th:block th:text="${person.user.lastName}"></th:block>
+            </h2>
+            <p th:text="${person.user.email}"></p>
+
+            <h3>Education</h3>
+            <div class="well" th:each="e : ${person.edus}">
+                <p th:text="${e.school}">school</p>
+                <p th:text="${e.years}">years</p>
+                <p th:text="${e.degree}">degree</p>
+            </div>
+
+            <h3>Work Experence</h3>
+            <div class="well" th:each="w : ${person.works}">
+                <p><b th:text="${w.title}">title</b></p>
+                <p th:text="${w.company}">company</p>
+                <p th:text="${w.tasks}">tasks</p>
+            </div>
+
+            <h3>Skills</h3>
+            <div class="well" th:each="s : ${person.skills}">
+                <p> * <b th:text="${s.area}">area</b> : <b th:text="${s.level}">level</b></p>
+            </div>
+
+        </div>
+    </div>
+    <!-- results -->
+
+    <!-- search person -->
+    <div class="well center" style="height:120px; display: none;" id="search_persons">
+        <button class="btn btn-danger btn-xs btn-closer" id="close_persons">X</button>
+        <form class="form-horizontal" th:action="@{/person_search}" th:object="${user}" method="post">
+            <div class="form-group">
+                <input th:field="*{username}" type="text" class="form-control" placeholder="person's username"/>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="form-control">Search for people</button>
+            </div>
+        </form>
+    </div>
+    <!-- search person -->
+
+    <!-- search company -->
+    <div class="well center" style="height:120px; display: none;" id="search_company">
+        <button class="btn btn-danger btn-xs btn-closer" id="close_company">X</button>
+        <form class="form-horizontal" th:action="@{/company_person_search}" th:object="${user}" method="post">
+            <div class="form-group">
+                <input th:field="*{username}" type="text" class="form-control" placeholder="name of company"/>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="form-control">Search for people by company</button>
+            </div>
+        </form>
+    </div>
+    <!-- search company -->
+
+    <!-- search school -->
+    <div class="well center" style="height:120px; display: none;" id="search_school">
+        <button class="btn btn-danger btn-xs btn-closer" id="close_school">X</button>
+        <form class="form-horizontal" th:action="@{/school_person_search}" th:object="${user}" method="post">
+            <div class="form-group">
+                <input th:field="*{username}" type="text" class="form-control" placeholder="name of school"/>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="form-control">Search for people by school</button>
+            </div>
+        </form>
+    </div>
+    <!-- search school -->
+
+</div><!-- /.container -->\
+<script>
+    const fields = {p: 'persons', c: 'company', s: 'school' };
+
+    //activate buttons
+    for (let i in fields) {
+        ID(`${fields[i]}_search`).addEventListener('click', () => {
+            ID(`search_${fields[i]}`).style.display = 'block';
+        });
+        ID(`close_${fields[i]}`).addEventListener('click', () => {
+            ID(`search_${fields[i]}`).style.display = 'none';
+        });
+    }
+
+    //edit nav bar
+    ID('person_search').className += 'active';
+    ID('login').style.display = 'none';
+    ID('post_job').style.display = 'none';
+    ID('register').style.display = 'none';
+</script>
+</body>
+</html>

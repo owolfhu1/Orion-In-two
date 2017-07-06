@@ -211,6 +211,15 @@ public class HomeController {
         return "notifications";
     }
 
+    @RequestMapping("/person_search")
+    public String personSearch(Model model) {
+
+        model.addAttribute("people", new ArrayList<Person>());
+        model.addAttribute("user", new User());
+
+        return "person_search";
+    }
+
 
     //for testing
     private void console(String format, Object... args) {
