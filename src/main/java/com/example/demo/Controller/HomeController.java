@@ -370,25 +370,3 @@ public class HomeController {
         this.userValidator = userValidator;
     }
 }
-
-/*
-
-Recruiters can now post jobs - jobs have skill requirements as part of the posting
-Users can search for jobs in addition to people, companies and schools
-Users receive notifications when jobs that match their skills are posted
-
-The requirements from the last challenge must still be met.
-
-
-
-A job should contain:
-
-=============================================================
-
-A title,
-an employer,
-a salary range,
-a description and
-a list of skills.
-
- */
