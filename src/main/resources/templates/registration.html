@@ -8,6 +8,7 @@
 <body>
 <div class="container">
     <th:block th:replace="base :: nav"></th:block>
+    <th:block th:replace="base :: nav_script"></th:block>
     <br /><br /><br />
     <h4>New User Registration</h4>
     <form autocomplete="off" action="#" th:action="@{/register}"
@@ -32,21 +33,19 @@
             <label for="password">Password <mark><strong><span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</span></strong></mark></label>
             <input type="password" class="form-control" id="password" placeholder="Password" th:field="*{password}" />
         </div>
+        <div class="form-group">
+            <p><strong>What are you?</strong></p>
+            <input type="radio" id="target" value="target" th:field="*{role}" />target
+            <input type="radio" id="hunter" value="hunter" th:field="*{role}" />hunter
+        </div>
 
-        <!-- TODO  roles -->
-
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="form-control">Register</button>
     </form>
 </div><!-- /.container -->
 
 <script>
+    ID('target').checked = true;
     ID('register').className += 'active';
-    ID('logout').style.display = 'none';
-    ID('builder').style.display = 'none';
-    ID('job_search').style.display = 'none';
-    ID('post_job').style.display = 'none';
-    ID('notifications').style.display = 'none';
-    ID('person_search').style.display = 'none';
 </script>
 
 </body>

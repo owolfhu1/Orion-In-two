@@ -1,6 +1,5 @@
 package com.example.demo.repositories;
 
-import com.example.demo.model.Edu;
 import com.example.demo.model.Skill;
 import org.springframework.data.repository.CrudRepository;
 

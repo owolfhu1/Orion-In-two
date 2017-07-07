@@ -8,6 +8,8 @@
 <body>
 <div class="container">
     <th:block th:replace="base :: nav"></th:block>
+    <th:block th:replace="base :: nav_script"></th:block>
+    <br/><br/><br/>
     <div class="jumbotron">
         <h1>notifications!</h1>
     </div>
@@ -24,8 +26,6 @@
 
 <script>
     ID('notifications').className += 'active';
-    ID('login').style.display = 'none';
-    ID('register').style.display = 'none';
 </script>
 
 </body>

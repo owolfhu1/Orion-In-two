@@ -8,7 +8,8 @@
 <body>
 <div class="container">
     <th:block th:replace="base :: nav"></th:block>
-
+    <th:block th:replace="base :: nav_script"></th:block>
+    <br/><br/><br/>
     <div class="jumbotron">
         <h1>Hello <th:block th:text="${person.firstName}"></th:block>!</h1>
         <h2>Are you ready to hunt for jobs?.</h2>
@@ -16,6 +17,7 @@
         <div class="btn-group">
             <button id="title_search" class="btn btn-warning">Search Job Titles</button>
             <button id="skill_search" class="btn btn-warning">Search Jobs by skill requirements</button>
+            <button id="description_search" class="btn btn-warning">Search Jobs by description key words</button>
         </div>
     </div>
 
@@ -27,6 +29,7 @@
             <p>Salary: <th:block th:text="${job.salary}">employer</th:block></p>
             <p>Job description: <th:block th:text="${job.description}">description</th:block></p>
             <p>required skills: <th:block th:text="${job.requirements}">skills</th:block></p>
+            <a th:href="@{'apply/' + ${job.employer} + '/' + ${job.id}}"><button class="btn btn-info">Apply to this job</button></a>
         </div>
     </div>
     <!-- results -->
@@ -59,11 +62,25 @@
     </div>
     <!-- search skill -->
 
+    <!-- search description -->
+    <div class="well center" style="height:120px; display: none;" id="search_description">
+        <button class="btn btn-danger btn-xs btn-closer" id="close_description">X</button>
+        <form class="form-horizontal" th:action="@{/description_job_search}" th:object="${job}" method="post">
+            <div class="form-group">
+                <input th:field="*{description}" type="text" class="form-control" placeholder="description keywords,  (separate by comma)"/>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="form-control">Search for Jobs</button>
+            </div>
+        </form>
+    </div>
+    <!-- search description -->
+
 
 
 </div><!-- /.container -->\
 <script>
-    const fields = {t: 'title', s: 'skill' };
+    const fields = {t: 'title', s: 'skill', d: 'description'};
 
     //activate buttons
     for (let i in fields) {
@@ -77,9 +94,6 @@
 
     //edit nav bar
     ID('job_search').className += 'active';
-    ID('login').style.display = 'none';
-    ID('post_job').style.display = 'none';
-    ID('register').style.display = 'none';
 </script>
 </body>
 </html>

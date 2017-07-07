@@ -31,14 +31,14 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public void saveUser(User user) {
-        user.setRoles(Arrays.asList(roleRepository.findByRole("USER")));
+    public void saveTarget(User user) {
+        user.setRoles(Arrays.asList(roleRepository.findByRole("target")));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
         userRepository.save(user);
     }
-    public void saveAdmin(User user) {
-        user.setRoles(Arrays.asList(roleRepository.findByRole("ADMIN")));
+    public void saveHunter(User user) {
+        user.setRoles(Arrays.asList(roleRepository.findByRole("hunter")));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
         userRepository.save(user);

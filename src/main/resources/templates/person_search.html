@@ -8,6 +8,7 @@
 <body>
 <div class="container">
     <th:block th:replace="base :: nav"></th:block>
+    <th:block th:replace="base :: nav_script"></th:block>
     <br/><br/><br/>
     <div class="jumbotron">
         <p>How would you like to search?</p>
@@ -15,6 +16,7 @@
             <button id="persons_search" class="btn btn-warning">Search people by username</button>
             <button id="company_search" class="btn btn-warning">Search people by company</button>
             <button id="school_search" class="btn btn-warning">Search people by school</button>
+            <button id="skill_search" class="btn btn-warning">Search people by skill</button>
         </div>
     </div>
 
@@ -52,7 +54,7 @@
     <!-- search person -->
     <div class="well center" style="height:120px; display: none;" id="search_persons">
         <button class="btn btn-danger btn-xs btn-closer" id="close_persons">X</button>
-        <form class="form-horizontal" th:action="@{/person_search}" th:object="${user}" method="post">
+        <form class="form-horizontal" th:action="@{/person_person_search}" th:object="${user}" method="post">
             <div class="form-group">
                 <input th:field="*{username}" type="text" class="form-control" placeholder="person's username"/>
             </div>
@@ -91,9 +93,23 @@
     </div>
     <!-- search school -->
 
+    <!-- search skill -->
+    <div class="well center" style="height:120px; display: none;" id="search_skill">
+        <button class="btn btn-danger btn-xs btn-closer" id="close_skill">X</button>
+        <form class="form-horizontal" th:action="@{/skill_person_search}" th:object="${user}" method="post">
+            <div class="form-group">
+                <input th:field="*{username}" type="text" class="form-control" placeholder="skill area"/>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="form-control">Search for people by skill</button>
+            </div>
+        </form>
+    </div>
+    <!-- search skill -->
+
 </div><!-- /.container -->\
 <script>
-    const fields = {p: 'persons', c: 'company', s: 'school' };
+    const fields = {p: 'persons', c: 'company', s: 'school', x: 'skill' };
 
     //activate buttons
     for (let i in fields) {
@@ -107,9 +123,6 @@
 
     //edit nav bar
     ID('person_search').className += 'active';
-    ID('login').style.display = 'none';
-    ID('post_job').style.display = 'none';
-    ID('register').style.display = 'none';
 </script>
 </body>
 </html>

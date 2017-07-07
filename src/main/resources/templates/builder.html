@@ -6,7 +6,8 @@
 <body>
 <div class="container">
     <th:block th:replace="base :: nav"></th:block>
-
+    <th:block th:replace="base :: nav_script"></th:block>
+<br/><br/><br/>
     <div class="jumbotron">
         <h1>Hello <th:block th:text="${person.firstName}"></th:block>!</h1>
         <h2>Welcome to the resume builder.</h2>
@@ -122,9 +123,6 @@
     }
 
     //edit nav bar
-    ID('login').style.display = 'none';
-    ID('register').style.display = 'none';
-    ID('post_job').style.display = 'none';
     ID('builder').className += "active";
 </script>
 

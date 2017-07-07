@@ -11,4 +11,5 @@ import java.util.ArrayList;
 
 public interface EduRepository extends CrudRepository<Edu, Integer> {
     ArrayList<Edu> findAllByUsername(String username);
+    ArrayList<Edu> findAllBySchool(String school);
 }

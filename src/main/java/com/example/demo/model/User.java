@@ -28,6 +28,9 @@ public class User {
     @Column(name = "username")
     private String username;
 
+    @Column(name = "role")
+    private String role;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
@@ -39,6 +42,14 @@ public class User {
         this.lastName = lastName;
         this.enabled = enabled;
         this.username = username;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public User() {

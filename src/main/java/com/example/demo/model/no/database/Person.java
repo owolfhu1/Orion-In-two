@@ -1,16 +1,31 @@
-package com.example.demo.model;
+package com.example.demo.model.no.database;
+
+import com.example.demo.model.Edu;
+import com.example.demo.model.Skill;
+import com.example.demo.model.User;
+import com.example.demo.model.Work;
 
 import java.util.ArrayList;
 
 /**
  * Created by student on 7/6/17.
  */
+
 public class Person {
 
     private User user;
     private ArrayList<Edu> edus;
     private ArrayList<Work> works;
     private ArrayList<Skill> skills;
+
+    public Person(User user, ArrayList<Edu> edus, ArrayList<Work> works, ArrayList<Skill> skills) {
+        this.user = user;
+        this.edus = edus;
+        this.works = works;
+        this.skills = skills;
+    }
+    public Person() {
+    }
 
     public User getUser() {
         return user;
