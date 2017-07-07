@@ -1,14 +1,10 @@
 package com.example.demo.services;
 import com.example.demo.repositories.RoleRepository;
 import com.example.demo.repositories.UserRepository;
-import com.example.demo.model.Role;
-import com.example.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
 
 @Component
 public class DataLoader implements CommandLineRunner{

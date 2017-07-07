@@ -1,7 +1,6 @@
 package com.example.demo.repositories;
 
-import com.example.demo.model.Edu;
-import com.example.demo.model.Work;
+import com.example.demo.models.Work;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.ArrayList;

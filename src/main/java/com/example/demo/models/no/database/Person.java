@@ -1,9 +1,9 @@
-package com.example.demo.model.no.database;
+package com.example.demo.models.no.database;
 
-import com.example.demo.model.Edu;
-import com.example.demo.model.Skill;
-import com.example.demo.model.User;
-import com.example.demo.model.Work;
+import com.example.demo.models.Edu;
+import com.example.demo.models.Skill;
+import com.example.demo.models.User;
+import com.example.demo.models.Work;
 
 import java.util.ArrayList;
 

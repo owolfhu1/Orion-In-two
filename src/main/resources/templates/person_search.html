@@ -10,7 +10,7 @@
     <th:block th:replace="base :: nav"></th:block>
     <th:block th:replace="base :: nav_script"></th:block>
     <br/><br/><br/>
-    <div class="jumbotron">
+    <div class="well">
         <p>How would you like to search?</p>
         <div class="btn-group">
             <button id="all_persons_search" class="btn btn-warning">Show all targets</button>
@@ -24,34 +24,31 @@
     <a href="/show_all_persons" id="click_me" style="display: none;"></a>
 
     <!-- results -->
-    <div class="well" th:each="person : ${people}">
+    <th:block th:each="person : ${people}">
         <div class="well">
             <h2>
                 <th:block th:text="${person.user.firstName}"></th:block> <th:block th:text="${person.user.lastName}"></th:block>
             </h2>
             <p th:text="${person.user.email}"></p>
-
             <h3>Education</h3>
             <div class="well" th:each="e : ${person.edus}">
                 <p th:text="${e.school}">school</p>
                 <p th:text="${e.years}">years</p>
                 <p th:text="${e.degree}">degree</p>
             </div>
-
             <h3>Work Experence</h3>
             <div class="well" th:each="w : ${person.works}">
                 <p><b th:text="${w.title}">title</b></p>
                 <p th:text="${w.company}">company</p>
                 <p th:text="${w.tasks}">tasks</p>
             </div>
-
             <h3>Skills</h3>
             <div class="well" th:each="s : ${person.skills}">
                 <p> * <b th:text="${s.area}">area</b> : <b th:text="${s.level}">level</b></p>
             </div>
 
         </div>
-    </div>
+    </th:block>
     <!-- results -->
 
     <!-- search person -->

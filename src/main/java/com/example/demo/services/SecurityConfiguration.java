@@ -1,4 +1,4 @@
-package com.example.demo.config;
+package com.example.demo.services;
 
 
 import com.example.demo.repositories.UserRepository;

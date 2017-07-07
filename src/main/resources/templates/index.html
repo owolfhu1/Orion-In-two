@@ -13,10 +13,21 @@
     <th:block th:replace="base :: nav"></th:block>
     <th:block th:replace="base :: nav_script"></th:block>
 
-    <br /><br /><br/>
-    <div class="jumbotron">
-        <h1>Job Hunter</h1>
-        <p class="lead">A web app by orion.</p>
+    <br /><br/>
+    <div class="well">
+        <th:block sec:authorize="isAuthenticated()">
+            <h1>Welcome to Job Hunter!</h1>
+            <th:block sec:authorize="hasAuthority('target')">
+                <p>good luck!</p>
+            </th:block>
+            <th:block sec:authorize="hasAuthority('hunter')">
+                <p>happy hunting!</p>
+            </th:block>
+        </th:block>
+        <th:block sec:authorize="isAnonymous()">
+            <h1>Welcome to Job Hunter</h1>
+            <p>please register/sign in to use this service</p>
+        </th:block>
     </div>
 
 </div><!-- /.container -->

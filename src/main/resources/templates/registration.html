@@ -10,6 +10,7 @@
     <th:block th:replace="base :: nav"></th:block>
     <th:block th:replace="base :: nav_script"></th:block>
     <br /><br /><br />
+    <div class="well">
     <h4>New User Registration</h4>
     <form autocomplete="off" action="#" th:action="@{/register}"
           th:object="${user}" method="post">
@@ -41,6 +42,7 @@
 
         <button type="submit" class="form-control">Register</button>
     </form>
+</div>
 </div><!-- /.container -->
 
 <script>

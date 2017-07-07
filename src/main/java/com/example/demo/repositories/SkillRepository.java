@@ -1,6 +1,6 @@
 package com.example.demo.repositories;
 
-import com.example.demo.model.Skill;
+import com.example.demo.models.Skill;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.ArrayList;
