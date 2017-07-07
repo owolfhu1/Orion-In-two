@@ -132,7 +132,7 @@ public class HomeController {
         notification.setUsername(employer);
         notification.setMessage(String.format("User %s applied to job listing '%s'", user.getUsername(), job.getTitle()));
         notificationRepository.save(notification);
-        return "redirect:/post_job";
+        return "redirect:/job_search";
     }//TODO make this not return anything if possible
 
     @RequestMapping("/delete/work/{id}")
@@ -209,6 +209,19 @@ public class HomeController {
             for (Job j : jobRepository.findAllByDescriptionContaining(key))
                 if(!hasJob(jobs, j.getId()))
                     jobs.add(j);
+
+        model.addAttribute("job", new Job());
+        model.addAttribute("person", user);
+        model.addAttribute("jobs", jobs);
+        return "job_search";
+    }
+
+    @RequestMapping("/show_all_jobs")
+    public String showAllJobs(Model model, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userRepository.findByUsername(userDetails.getUsername());
+
+        ArrayList<Job> jobs = (ArrayList<Job>) jobRepository.findAll();
 
         model.addAttribute("job", new Job());
         model.addAttribute("person", user);
@@ -338,6 +351,28 @@ public class HomeController {
         return "person_search";
     }
 
+    @RequestMapping("/show_all_persons")
+    public String showAllPeople(Model model) {
+
+        ArrayList<Person> people = new ArrayList<>();
+
+        for (User u : userRepository.findAllByRole("target")) {
+            Person person = new Person(
+                    userRepository.findByUsername(u.getUsername()),
+                    eduRepository.findAllByUsername(u.getUsername()),
+                    workRepository.findAllByUsername(u.getUsername()),
+                    skillRepository.findAllByUsername(u.getUsername())
+            );
+            people.add(person);
+        }
+
+        model.addAttribute("people", people);
+        model.addAttribute("user", new User());
+
+        return "person_search";
+
+    }
+
     private void console(String format, Object... args) {
         format = "\n" + format + "\n";
         System.out.printf(format, args);
@@ -356,7 +391,7 @@ public class HomeController {
             ArrayList<Skill> users = skillRepository.findAllByArea(skill);
             for (Skill s : users) {
                 Notification notification = new Notification();
-                notification.setMessage("A new job has been posted which requires the skill: " + skill);
+                notification.setMessage(String.format("A new job has been posted by %s requiring the skill: %s", job.getEmployer(), skill));
                 notification.setUsername(s.getUsername());
                 notificationRepository.save(notification);
             }

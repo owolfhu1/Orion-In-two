@@ -13,12 +13,15 @@
     <div class="jumbotron">
         <p>How would you like to search?</p>
         <div class="btn-group">
-            <button id="persons_search" class="btn btn-warning">Search people by username</button>
-            <button id="company_search" class="btn btn-warning">Search people by company</button>
-            <button id="school_search" class="btn btn-warning">Search people by school</button>
-            <button id="skill_search" class="btn btn-warning">Search people by skill</button>
+            <button id="all_persons_search" class="btn btn-warning">Show all targets</button>
+            <button id="persons_search" class="btn btn-danger">Search targets by username</button>
+            <button id="company_search" class="btn btn-warning">Search targets by company</button>
+            <button id="school_search" class="btn btn-danger">Search targets by school</button>
+            <button id="skill_search" class="btn btn-warning">Search targets by skill</button>
         </div>
     </div>
+
+    <a href="/show_all_persons" id="click_me" style="display: none;"></a>
 
     <!-- results -->
     <div class="well" th:each="person : ${people}">
@@ -107,19 +110,23 @@
     </div>
     <!-- search skill -->
 
-</div><!-- /.container -->\
+</div><!-- /.container -->
 <script>
     const fields = {p: 'persons', c: 'company', s: 'school', x: 'skill' };
 
     //activate buttons
     for (let i in fields) {
         ID(`${fields[i]}_search`).addEventListener('click', () => {
-            ID(`search_${fields[i]}`).style.display = 'block';
+            display(`search_${fields[i]}`,'block');
         });
         ID(`close_${fields[i]}`).addEventListener('click', () => {
-            ID(`search_${fields[i]}`).style.display = 'none';
+            display(`search_${fields[i]}`,'none');
         });
     }
+
+    ID('all_persons_search').addEventListener('click', () => {
+        ID('click_me').click();
+    });
 
     //edit nav bar
     ID('person_search').className += 'active';

@@ -15,7 +15,7 @@
 
         <div class="btn-group">
             <button id="add_edu" class="btn btn-warning">Add Education</button>
-            <button id="add_work" class="btn btn-warning">Add Work</button>
+            <button id="add_work" class="btn btn-danger">Add Work</button>
             <button id="add_skill" class="btn btn-warning">Add Skill</button>
         </div>
     </div>
@@ -114,11 +114,11 @@
 
     //activate buttons
     for (let i in fields) {
-        ID('add_' + fields[i]).addEventListener('click', () => {
-            ID('new_' + fields[i]).style.display = 'block';
+        ID(`add_${fields[i]}`).addEventListener('click', () => {
+            display(`new_${fields[i]}`,'block');
         });
-        ID('close_' + fields[i]).addEventListener('click', () => {
-            ID('new_' + fields[i]).style.display = 'none';
+        ID(`close_${fields[i]}`).addEventListener('click', () => {
+            display(`new_${fields[i]}`,'none');
         });
     }
 

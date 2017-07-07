@@ -15,12 +15,13 @@
         <h2>Are you ready to hunt for jobs?.</h2>
         <p>How would you like to search?</p>
         <div class="btn-group">
-            <button id="title_search" class="btn btn-warning">Search Job Titles</button>
+            <button id="show_all_jobs" class="btn btn-warning">Show all</button>
+            <button id="title_search" class="btn btn-danger">Search Job Titles</button>
             <button id="skill_search" class="btn btn-warning">Search Jobs by skill requirements</button>
-            <button id="description_search" class="btn btn-warning">Search Jobs by description key words</button>
+            <button id="description_search" class="btn btn-danger">Search Jobs by description key words</button>
         </div>
     </div>
-
+    <a href="/show_all_jobs" id="click_me" style="display: none;"></a>
     <!-- results -->
     <div class="well" th:each="job : ${jobs}">
         <div class="well">
@@ -78,19 +79,23 @@
 
 
 
-</div><!-- /.container -->\
+</div><!-- /.container -->
 <script>
     const fields = {t: 'title', s: 'skill', d: 'description'};
 
     //activate buttons
     for (let i in fields) {
         ID(`${fields[i]}_search`).addEventListener('click', () => {
-            ID(`search_${fields[i]}`).style.display = 'block';
+            display(`search_${fields[i]}`,'block');
         });
         ID(`close_${fields[i]}`).addEventListener('click', () => {
-            ID(`search_${fields[i]}`).style.display = 'none';
+            display(`search_${fields[i]}`,'none');
         });
     }
+
+    ID('show_all_jobs').addEventListener('click', () =>{
+        ID('click_me').click();
+    });
 
     //edit nav bar
     ID('job_search').className += 'active';
